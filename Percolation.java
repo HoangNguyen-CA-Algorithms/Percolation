@@ -6,10 +6,10 @@ import edu.princeton.cs.algs4.WeightedQuickUnionUF;
 
 public class Percolation {
 
-    private WeightedQuickUnionUF UF;
-    private int START_SITE;
-    private int END_SITE;
-    private int N;
+    final private WeightedQuickUnionUF UF;
+    final private int START_SITE;
+    final private int END_SITE;
+    final private int N;
 
     private boolean[] openSites; // keeps track of which sites are open.
     private int openCount;
@@ -141,8 +141,4 @@ public class Percolation {
         return UF.find(this.START_SITE) == UF.find(this.END_SITE);
     }
 
-    // test client (optional)
-    public static void main(String[] args){
-
-    }
 }
