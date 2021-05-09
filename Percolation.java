@@ -1,20 +1,18 @@
 /* *****************************************************************************
- *  Name:              Alan Turing
- *  Coursera User ID:  123456
- *  Last modified:     1/1/2019
+ *  Name:              Hoang Nguyen
  **************************************************************************** */
 
 import edu.princeton.cs.algs4.WeightedQuickUnionUF;
 
 public class Percolation {
 
-    WeightedQuickUnionUF UF;
-    int START_SITE;
-    int END_SITE;
-    int N;
+    private WeightedQuickUnionUF UF;
+    private int START_SITE;
+    private int END_SITE;
+    private int N;
 
-    boolean[] openList;
-    int openSites;
+    private boolean[] openSites; // keeps track of which sites are open.
+    private int openCount;
 
 
     // creates n-by-n grid, with all sites initially blocked
@@ -23,14 +21,12 @@ public class Percolation {
             throw new IllegalArgumentException();
         }
 
-        this.N = n;
-
-
         this.START_SITE = n*n;
         this.END_SITE = n*n+1;
+        this.N = n;
 
         this.UF = new WeightedQuickUnionUF(n*n + 2); // last 2 are virtual sites.
-        this.openList = new boolean[n*n]; // keeps track of which sites are open
+        this.openSites = new boolean[n*n];
 
 
         //connect all starting sites
@@ -84,6 +80,10 @@ public class Percolation {
         }
     }
 
+    private boolean isOpen(int node){
+        return openSites[node];
+    }
+
     // opens the site (row, col) if it is not open already
     public void open(int row, int col){
         if (isOpen(row, col)){
@@ -103,33 +103,27 @@ public class Percolation {
         }if (rightNode>= 0){
             if (isOpen(rightNode)){
                 UF.union(node, rightNode);
-
             }
         }
         if (bottomNode >= 0){
             if (isOpen(bottomNode)){
                 UF.union(node, bottomNode);
-
             }
         }if (leftNode >= 0){
             if (isOpen(leftNode)){
                 UF.union(node, leftNode);
-
             }
         }
 
-        this.openList[node] = true;
-        this.openSites++;
+        this.openSites[node] = true;
+        this.openCount++;
     }
+
+
 
     // is the site (row, col) open?
-
-    private boolean isOpen(int node){
-        return openList[node];
-
-    }
     public boolean isOpen(int row, int col){
-        return openList[this.getNode(row, col)];
+        return openSites[this.getNode(row, col)];
     }
 
     // is the site (row, col) full?
@@ -139,7 +133,7 @@ public class Percolation {
 
     // returns the number of open sites
     public int numberOfOpenSites(){
-        return this.openSites;
+        return this.openCount;
     }
 
     // does the system percolate?
@@ -151,7 +145,4 @@ public class Percolation {
     public static void main(String[] args){
 
     }
-
-
-
 }
